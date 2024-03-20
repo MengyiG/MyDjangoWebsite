@@ -1,10 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+rooms = [
+    {'id': 1, 'name': 'Room 1'},
+    {'id': 2, 'name': 'Room 2'},
+    {'id': 3, 'name': 'Room 3'},
+]
+
 
 def home(request):
-    return render(request, 'home.html')
+    context = {
+        'rooms': rooms
+    }
+    return render(request, 'core/home.html', context)
 
 
 def room(request):
-    return render(request, 'room.html')
+    return render(request, 'core/room.html')
