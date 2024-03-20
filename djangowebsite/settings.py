@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # The `core` app is a custom app that we created.
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
