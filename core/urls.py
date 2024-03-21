@@ -9,4 +9,5 @@ urlpatterns = [
 
     path('create-channel/', views.createChannel, name='create-channel'),
     path('update-channel/<str:pk>/', views.updateChannel, name='update-channel'),
+    path('delete-channel/<str:pk>/', views.deleteChannel, name='delete-channel')
 ]

@@ -9,6 +9,8 @@
         {% for channel in channels %}
         <div>
             <a href="{% url 'update-channel' channel.id %}">Edit</a>
+            <a href="{% url 'delete-channel' channel.id %}">Delete</a>
+
             <span>@{{channel.host.username}}</span>
             <h3> {{channel.id}}--
                 <!-- this refers to url patterns in urls.py by the name tag -->

@@ -46,3 +46,11 @@ def updateChannel(request, pk):
             return redirect('home')
     context = {'form': form}
     return render(request, 'core/channel_form.html', context)
+
+
+def deleteChannel(request, pk):
+    channel = Channel.objects.get(id=pk)
+    if request.method == 'POST':
+        channel.delete()
+        return redirect('home')
+    return render(request, 'core/delete.html', {'obj': channel})
