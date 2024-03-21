@@ -9,7 +9,7 @@ class Topic(models.Model):
         return self.name
 
 
-class Room(models.Model):
+class Channel(models.Model):
     host = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=160)
@@ -25,8 +25,8 @@ class Room(models.Model):
 class Message(models.Model):
     # once the user is deleted, all the messages will be deleted
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    # once the room is deleted, all the messages will be deleted
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    # once the channel is deleted, all the messages will be deleted
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     body = models.TextField()
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)

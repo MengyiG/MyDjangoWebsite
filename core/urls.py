@@ -5,5 +5,5 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     # This is a dynamic URL that will take a string as a parameter
-    path('room/<str:pk>/', views.room, name='room'),
+    path('channel/<str:pk>/', views.channel, name='channel'),
 ]

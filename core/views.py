@@ -1,20 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Room
+from .models import Channel
 
 
 def home(request):
-    rooms = Room.objects.all()
+    channels = Channel.objects.all()
     context = {
-        'rooms': rooms
+        'channels': channels
     }
     return render(request, 'core/home.html', context)
 
 
-def room(request, pk):
-    # get the room from the database and pass it to the template
-    room = Room.objects.get(id=pk)
+def channel(request, pk):
+    # get the channel from the database and pass it to the template
+    channel = Channel.objects.get(id=pk)
     context = {
-        'room': room
+        'channel': channel
     }
-    return render(request, 'core/room.html', context)
+    return render(request, 'core/channel.html', context)

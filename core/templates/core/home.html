@@ -5,13 +5,16 @@
 
 <div>
     <div>
-        {% for room in rooms %}
+        {% for channel in channels %}
         <div>
-            <h3> {{room.id}}--
+            <span>@{{channel.host.username}}</span>
+            <h3> {{channel.id}}--
                 <!-- this refers to url patterns in urls.py by the name tag -->
-                <a href="{% url 'room' room.id%}">
-                    {{room.name}}
+                <a href="{% url 'channel' channel.id%}">
+                    {{channel.name}}
             </h3>
+            <p>{{channel.topic.name}}</p>
+            <hr>
         </div>
         {% endfor %}
     </div>
