@@ -3,8 +3,10 @@ from django.contrib import messages
 from .models import Channel, Topic
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .forms import ChannelForm
 from django.db.models import Q
+from django.http import HttpResponse
 
 
 def loginPage(request):
@@ -66,6 +68,7 @@ def channel(request, pk):
     return render(request, 'core/channel.html', context)
 
 
+@login_required(login_url='login')
 def createChannel(request):
     form = ChannelForm()
     if request.method == 'POST':
@@ -78,11 +81,15 @@ def createChannel(request):
     return render(request, 'core/channel_form.html', context)
 
 
+@login_required(login_url='login')
 def updateChannel(request, pk):
     channel = Channel.objects.get(id=pk)
 
     # pass the instance to the form
     form = ChannelForm(instance=channel)
+
+    if request.user != channel.host:
+        return HttpResponse('You are not allowed here')
 
     if request.method == 'POST':
         form = ChannelForm(request.POST, instance=channel)
@@ -93,8 +100,13 @@ def updateChannel(request, pk):
     return render(request, 'core/channel_form.html', context)
 
 
+@login_required(login_url='login')
 def deleteChannel(request, pk):
     channel = Channel.objects.get(id=pk)
+
+    if request.user != channel.host:
+        return HttpResponse('You are not allowed here')
+
     if request.method == 'POST':
         channel.delete()
         return redirect('home')
