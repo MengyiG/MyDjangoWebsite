@@ -7,7 +7,7 @@
     <div>
         {% for room in rooms %}
         <div>
-            <h3> room id is {{room.id}}--
+            <h3> {{room.id}}--
                 <!-- this refers to url patterns in urls.py by the name tag -->
                 <a href="{% url 'room' room.id%}">
                     {{room.name}}
