@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import Channel
+from .models import Channel, Topic
 from .forms import ChannelForm
 
 
 def home(request):
-    channels = Channel.objects.all()
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    # get the channels from the database when the topic name contains the query
+    # case insensitive
+    channels = Channel.objects.filter(topic__name__icontains=q)
+    topics = Topic.objects.all()
     context = {
-        'channels': channels
+        'channels': channels,
+        'topics': topics
     }
     return render(request, 'core/home.html', context)
 

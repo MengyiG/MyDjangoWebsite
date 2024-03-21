@@ -1,26 +1,56 @@
 {% extends "main.html" %}
 
 {% block content %}
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>
+
+
 <h1>home template</h1>
 
-<div>
-    <h2><a href="{% url 'create-channel' %}">Create a new channel</a></h2>
+<div class="home-container">
+    <!-- This is the topics column -->
     <div>
-        {% for channel in channels %}
-        <div>
-            <a href="{% url 'update-channel' channel.id %}">Edit</a>
-            <a href="{% url 'delete-channel' channel.id %}">Delete</a>
+        <h3>Browse Topics</h3>
+        <hr>
+        <ul>
+            <li>
+                <a href="{% url 'home' %}">All</a>
+            </li>
 
-            <span>@{{channel.host.username}}</span>
-            <h3> {{channel.id}}--
-                <!-- this refers to url patterns in urls.py by the name tag -->
-                <a href="{% url 'channel' channel.id %}">
-                    {{channel.name}}
-            </h3>
-            <p>{{channel.topic.name}}</p>
-            <hr>
-        </div>
-        {% endfor %}
+            {% for topic in topics %}
+            <li>
+                <!-- render topics and throw that topic to the url -->
+                <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
+            </li>
+            {% endfor %}
     </div>
+
+    <!-- This is the channel column -->
+    <div>
+        <h2><a href="{% url 'create-channel' %}">Create a new channel</a></h2>
+        <div>
+            {% for channel in channels %}
+            <div>
+                <a href="{% url 'update-channel' channel.id %}">Edit</a>
+                <a href="{% url 'delete-channel' channel.id %}">Delete</a>
+
+                <span>@{{channel.host.username}}</span>
+                <h3> {{channel.id}}--
+                    <!-- this refers to url patterns in urls.py by the name tag -->
+                    <a href="{% url 'channel' channel.id %}">
+                        {{channel.name}}
+                </h3>
+                <p>{{channel.topic.name}}</p>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- will add more columns -->
 </div>
 {% endblock content %}
