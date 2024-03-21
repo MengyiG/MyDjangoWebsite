@@ -36,9 +36,10 @@
         <div>
             {% for channel in channels %}
             <div>
+                {% if request.user == channel.host %}
                 <a href="{% url 'update-channel' channel.id %}">Edit</a>
                 <a href="{% url 'delete-channel' channel.id %}">Delete</a>
-
+                {% endif %}
                 <span>@{{channel.host.username}}</span>
                 <h3> {{channel.id}}--
                     <!-- this refers to url patterns in urls.py by the name tag -->
