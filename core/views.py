@@ -10,6 +10,12 @@ from django.http import HttpResponse
 
 
 def loginPage(request):
+
+    page = 'login'
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         # get the username and password from the form
         username = request.POST.get('username')
@@ -30,13 +36,44 @@ def loginPage(request):
         else:
             messages.error(request, 'Username OR password is incorrect')
 
-    context = {}
+    context = {'page': page}
     return render(request, 'core/login_register.html', context)
 
 
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+
+def registerPage(request):
+
+    page = 'register'
+
+    # if request.user.is_authenticated:
+    #     return redirect('home')
+
+    # if request.method == 'POST':
+    #     # get the form data
+    #     first_name = request.POST.get('first_name')
+    #     last_name = request.POST.get('last_name')
+    #     username = request.POST.get('username')
+    #     email = request.POST.get('email')
+    #     password = request.POST.get('password')
+
+    #     # create the user
+    #     try:
+    #         user = User.objects.create_user(
+    #             username=username, email=email, password=password)
+    #         user.first_name = first_name
+    #         user.last_name = last_name
+    #         user.save()
+    #         messages.success(request, 'Account was created for ' + username)
+    #         return redirect('login')
+    #     except:
+    #         messages.error(request, 'An error occurred during registration')
+
+    context = {'page': page}
+    return render(request, 'core/login_register.html', context)
 
 
 def home(request):
