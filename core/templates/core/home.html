@@ -4,14 +4,15 @@
 <h1>home template</h1>
 
 <div>
-    <a href="{% url 'create-channel' %}">Create a new channel</a>
+    <h2><a href="{% url 'create-channel' %}">Create a new channel</a></h2>
     <div>
         {% for channel in channels %}
         <div>
+            <a href="{% url 'update-channel' channel.id %}">Edit</a>
             <span>@{{channel.host.username}}</span>
             <h3> {{channel.id}}--
                 <!-- this refers to url patterns in urls.py by the name tag -->
-                <a href="{% url 'channel' channel.id%}">
+                <a href="{% url 'channel' channel.id %}">
                     {{channel.name}}
             </h3>
             <p>{{channel.topic.name}}</p>

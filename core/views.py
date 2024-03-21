@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Channel
+from .forms import ChannelForm
 
 
 def home(request):
@@ -21,5 +22,27 @@ def channel(request, pk):
 
 
 def createChannel(request):
-    context = {}
+    form = ChannelForm()
+    if request.method == 'POST':
+        form = ChannelForm(request.POST)
+        form = ChannelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    context = {'form': form}
+    return render(request, 'core/channel_form.html', context)
+
+
+def updateChannel(request, pk):
+    channel = Channel.objects.get(id=pk)
+
+    # pass the instance to the form
+    form = ChannelForm(instance=channel)
+
+    if request.method == 'POST':
+        form = ChannelForm(request.POST, instance=channel)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    context = {'form': form}
     return render(request, 'core/channel_form.html', context)
