@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('room/', views.room, name='room'),
 
+    # This is a dynamic URL that will take a string as a parameter
+    path('room/<str:pk>/', views.room, name='room'),
 ]

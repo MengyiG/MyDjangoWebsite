@@ -7,9 +7,11 @@
     <div>
         {% for room in rooms %}
         <div>
-            <h3> {{room.id}}</h3>
-            <h6> {{room.name}}</h6>
-
+            <h3> room id is {{room.id}}--
+                <!-- this refers to url patterns in urls.py by the name tag -->
+                <a href="{% url 'room' room.id%}">
+                    {{room.name}}
+            </h3>
         </div>
         {% endfor %}
     </div>
