@@ -1,7 +1,40 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Channel, Topic
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from .forms import ChannelForm
 from django.db.models import Q
+
+
+def loginPage(request):
+    if request.method == 'POST':
+        # get the username and password from the form
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # authenticate the user
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'Username does not exist')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # add the user to the session
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username OR password is incorrect')
+
+    context = {}
+    return render(request, 'core/login_register.html', context)
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 
 def home(request):
