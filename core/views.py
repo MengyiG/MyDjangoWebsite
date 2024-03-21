@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Channel, Topic
 from .forms import ChannelForm
+from django.db.models import Q
 
 
 def home(request):
@@ -8,11 +9,17 @@ def home(request):
 
     # get the channels from the database when the topic name contains the query
     # case insensitive
-    channels = Channel.objects.filter(topic__name__icontains=q)
+    channels = Channel.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(description__icontains=q)
+    )
     topics = Topic.objects.all()
+    channel_count = channels.count()
     context = {
         'channels': channels,
-        'topics': topics
+        'topics': topics,
+        'channel_count': channel_count
     }
     return render(request, 'core/home.html', context)
 

@@ -31,6 +31,7 @@
 
     <!-- This is the channel column -->
     <div>
+        <h3>{{channel_count}} channels available</h3>
         <h2><a href="{% url 'create-channel' %}">Create a new channel</a></h2>
         <div>
             {% for channel in channels %}
