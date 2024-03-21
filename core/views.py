@@ -18,3 +18,8 @@ def channel(request, pk):
         'channel': channel
     }
     return render(request, 'core/channel.html', context)
+
+
+def createChannel(request):
+    context = {}
+    return render(request, 'core/channel_form.html', context)

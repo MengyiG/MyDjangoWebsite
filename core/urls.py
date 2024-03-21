@@ -6,4 +6,6 @@ urlpatterns = [
 
     # This is a dynamic URL that will take a string as a parameter
     path('channel/<str:pk>/', views.channel, name='channel'),
+
+    path('create-channel/', views.createChannel, name='create-channel'),
 ]
