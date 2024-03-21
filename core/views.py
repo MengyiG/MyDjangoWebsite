@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import ChannelForm
+from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from django.http import HttpResponse
 
@@ -18,7 +19,7 @@ def loginPage(request):
 
     if request.method == 'POST':
         # get the username and password from the form
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         # authenticate the user
@@ -47,32 +48,26 @@ def logoutUser(request):
 
 def registerPage(request):
 
-    page = 'register'
+    form = UserCreationForm()
 
-    # if request.user.is_authenticated:
-    #     return redirect('home')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # save the user to the database
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            # get the username from the form
+            username = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + username)
+            # add the user to the session
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(
+                request, 'An error has occurred during registration')
 
-    # if request.method == 'POST':
-    #     # get the form data
-    #     first_name = request.POST.get('first_name')
-    #     last_name = request.POST.get('last_name')
-    #     username = request.POST.get('username')
-    #     email = request.POST.get('email')
-    #     password = request.POST.get('password')
-
-    #     # create the user
-    #     try:
-    #         user = User.objects.create_user(
-    #             username=username, email=email, password=password)
-    #         user.first_name = first_name
-    #         user.last_name = last_name
-    #         user.save()
-    #         messages.success(request, 'Account was created for ' + username)
-    #         return redirect('login')
-    #     except:
-    #         messages.error(request, 'An error occurred during registration')
-
-    context = {'page': page}
+    context = {'form': form}
     return render(request, 'core/login_register.html', context)
 
 
