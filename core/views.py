@@ -96,6 +96,9 @@ def channel(request, pk):
     # get the channel from the database and pass it to the template
     channel = Channel.objects.get(id=pk)
     channel_messages = channel.message_set.all()
+    # sort the participants alphabetically
+    # TODO: why super user is not sorted?
+    participants = channel.participants.all().order_by('username')
 
     if request.method == 'POST':
         message = Message.objects.create(
@@ -103,10 +106,11 @@ def channel(request, pk):
             channel=channel,
             body=request.POST.get('body')
         )
-        # redirect to the same page 
+        channel.participants.add(request.user)
+        # redirect to the same page
         return redirect('channel', pk=channel.id)
     context = {
-        'channel': channel, 'channel_messages': channel_messages.order_by('-created')
+        'channel': channel, 'channel_messages': channel_messages.order_by('-created'), 'participants': participants
     }
     return render(request, 'core/channel.html', context)
 

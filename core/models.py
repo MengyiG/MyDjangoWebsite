@@ -14,7 +14,10 @@ class Channel(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=160)
     description = models.TextField(blank=True, null=True)
-    # participants = models.ManyToManyField('auth.User', blank=True)
+    # many to many relationship with the User model
+    # the related name is participants, which means we can access the participants of a channel by calling channel.participants
+    participants = models.ManyToManyField(
+        User, related_name='participants', blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 

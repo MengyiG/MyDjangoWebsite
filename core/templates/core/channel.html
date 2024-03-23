@@ -1,27 +1,46 @@
 {% extends "main.html" %}
 
 {% block content %}
-<h1>{{channel.name}}</h1>
-<p>{{channel.description}}</p>
+<style>
+    .channel-wrapper {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
 
-<div class="comment-warpper">
-    <h2>Conversations</h2>
-    <hr>
-    {% for message in channel_messages %}
+<div class="channel-wrapper">
     <div>
-        <small>@{{ message.user }} {{ message.created|timesince }} ago</small>
-        <p> {{ message.body }}</p>
+        <h1>{{channel.name}}</h1>
+        <p>{{channel.description}}</p>
+
+        <div class="comment-warpper">
+            <h2>Conversations</h2>
+            <hr>
+            {% for message in channel_messages %}
+            <div>
+                <small>@{{ message.user }} {{ message.created|timesince }} ago</small>
+                <p> {{ message.body }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="comment-form">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="body" placeholder="Type your message here...">
+            </form>
+        </div>
+        {% endif %}
     </div>
-    {% endfor %}
-</div>
 
-{% if user.is_authenticated %}
-<div class="comment-form">
-    <form method="POST" action="">
-        {% csrf_token %}
-        <input type="text" name="body" placeholder="Type your message here...">
-    </form>
+    <div>
+        <h2>Participants</h2>
+        <hr>
+        <ul>
+            {% for participant in participants %}
+            <li>@{{ participant.username }}</li>
+            {% endfor %}
+    </div>
 </div>
-{% endif %}
-
 {% endblock content %}
