@@ -158,3 +158,16 @@ def deleteChannel(request, pk):
         channel.delete()
         return redirect('home')
     return render(request, 'core/delete.html', {'obj': channel})
+
+
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    message = Message.objects.get(id=pk)
+
+    if request.user != message.user:
+        return HttpResponse('You are not allowed here')
+
+    if request.method == 'POST':
+        message.delete()
+        return redirect('channel', pk=message.channel.id)
+    return render(request, 'core/delete.html', {'obj': message})
