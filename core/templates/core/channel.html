@@ -2,4 +2,16 @@
 
 {% block content %}
 <h1>{{channel.name}}</h1>
+<p>{{channel.description}}</p>
+
+<div class="comment-warpper">
+    <h2>Conversations</h2>
+    <hr>
+    {% for message in channel_messages %}
+    <div>
+        <small>@{{ message.user }} {{ message.created|timesince }} ago</small>
+        <p> {{ message.body }}</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock content %}

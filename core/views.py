@@ -72,6 +72,7 @@ def registerPage(request):
 
 
 def home(request):
+
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
     # get the channels from the database when the topic name contains the query
@@ -94,8 +95,9 @@ def home(request):
 def channel(request, pk):
     # get the channel from the database and pass it to the template
     channel = Channel.objects.get(id=pk)
+    channel_messages = channel.message_set.all()
     context = {
-        'channel': channel
+        'channel': channel, 'channel_messages': channel_messages.order_by('-created')
     }
     return render(request, 'core/channel.html', context)
 

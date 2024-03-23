@@ -9,6 +9,7 @@
 
 <!-- TODO: delete login when user is registering or logining in -->
 {% if user.is_authenticated %}
+<!-- TODO: display user original name  -->
 <p> Hello, {{ request.user }}!</p>
 <a href="{% url 'logout' %}">Logout</a>
 {% else %}
