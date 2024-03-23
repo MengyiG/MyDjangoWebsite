@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Channel, Topic
+from .models import Channel, Topic, Message
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -96,6 +96,15 @@ def channel(request, pk):
     # get the channel from the database and pass it to the template
     channel = Channel.objects.get(id=pk)
     channel_messages = channel.message_set.all()
+
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user=request.user,
+            channel=channel,
+            body=request.POST.get('body')
+        )
+        # redirect to the same page 
+        return redirect('channel', pk=channel.id)
     context = {
         'channel': channel, 'channel_messages': channel_messages.order_by('-created')
     }
