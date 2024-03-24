@@ -172,5 +172,6 @@ def deleteMessage(request, pk):
 
     if request.method == 'POST':
         message.delete()
-        return redirect('channel', pk=message.channel.id)
+        # TODO: redirect to the previous page
+        return redirect('home')
     return render(request, 'core/delete.html', {'obj': message})
