@@ -71,6 +71,17 @@ def registerPage(request):
     return render(request, 'core/login_register.html', context)
 
 
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    channels = user.channel_set.all()
+    channel_messages = user.message_set.all()
+    topics = Topic.objects.all()
+
+    context = {'user': user, 'channels': channels,
+               'channel_messages': channel_messages, 'topics': topics}
+    return render(request, 'core/profile.html', context)
+
+
 def home(request):
 
     q = request.GET.get('q') if request.GET.get('q') != None else ''

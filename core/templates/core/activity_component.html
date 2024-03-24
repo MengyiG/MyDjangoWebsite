@@ -2,7 +2,10 @@
 <hr>
 {% for message in channel_messages %}
 <div>
-    <small>@{{ message.user.username }} {{ message.created| timesince }} ago</small>
+    <a href="{% url 'user-profile' message.user.id %}">
+        @{{ message.user.username }}
+    </a>
+    <small> {{ message.created | timesince }} ago </small>
     <small>replied to "{{ message.channel.name }}"</small>
     <p>{{ message }}</p>
 
