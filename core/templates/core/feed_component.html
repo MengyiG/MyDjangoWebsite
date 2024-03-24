@@ -5,7 +5,10 @@
         <a href="{% url 'update-channel' channel.id %}">Edit</a>
         <a href="{% url 'delete-channel' channel.id %}">Delete</a>
         {% endif %}
-        <a href="{% url 'user-profile' channel.host.id %}">@{{channel.host.username}}</a>
+
+        <a href="{% url 'user-profile' channel.host.id %}">
+            @{{channel.host.username}}
+        </a>
         <h3>
             <!-- this refers to url patterns in urls.py by the name tag -->
             <a href="{% url 'channel' channel.id %}">

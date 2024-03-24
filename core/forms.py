@@ -6,3 +6,4 @@ class ChannelForm(ModelForm):
     class Meta:
         model = Channel
         fields = '__all__'
+        exclude = ['host', 'participants']
