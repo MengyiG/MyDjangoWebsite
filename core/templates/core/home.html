@@ -4,12 +4,9 @@
 <style>
     .home-container {
         display: grid;
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr 3fr 1fr;
     }
 </style>
-
-
-<h1>home template</h1>
 
 <div class="home-container">
     <!-- This is the topics column -->
@@ -45,6 +42,7 @@
                     <!-- this refers to url patterns in urls.py by the name tag -->
                     <a href="{% url 'channel' channel.id %}">
                         {{channel.name}}
+                    </a>
                 </h3>
                 <p>{{channel.topic.name}}</p>
                 <hr>
@@ -53,6 +51,18 @@
         </div>
     </div>
 
-    <!-- will add more columns -->
+    <!-- This is the Recenet Activity column -->
+    <div>
+        <h3> Recent Activity</h3>
+        <hr>
+        {% for message in channel_messages %}
+        <div>
+            <small>@{{ message.user.username }} {{ message.created| timesince }} ago</small>
+            <small>replied to "{{ message.channel.name }}"</small>
+            <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock content %}

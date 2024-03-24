@@ -84,10 +84,13 @@ def home(request):
     )
     topics = Topic.objects.all()
     channel_count = channels.count()
+    channel_messages = Message.objects.all()
+
     context = {
         'channels': channels,
         'topics': topics,
-        'channel_count': channel_count
+        'channel_count': channel_count,
+        'channel_messages': channel_messages
     }
     return render(request, 'core/home.html', context)
 
