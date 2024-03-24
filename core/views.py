@@ -84,7 +84,9 @@ def home(request):
     )
     topics = Topic.objects.all()
     channel_count = channels.count()
-    channel_messages = Message.objects.all()
+    # display the messages of the searched channel only
+    channel_messages = Message.objects.filter(
+        Q(channel__topic__name__icontains=q))
 
     context = {
         'channels': channels,
